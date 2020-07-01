@@ -17,7 +17,7 @@ router.post("/login", function(req, res) {
 
 router.get("/me", auth, async (req, res) => {
   // View logged in user profile
-  res.send(req.user);
+  res.send(req.user._id);
 });
 
 module.exports = router;
