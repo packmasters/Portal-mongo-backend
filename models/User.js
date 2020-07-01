@@ -6,12 +6,16 @@ const jwt = require('jsonwebtoken')
 const userSchema = mongoose.Schema({
     name: {
         type: String,
+        trim: true
+    },
+    username: {
+        type: String,
         required: true,
+        unique: true,
         trim: true
     },
     email: {
         type: String,
-        required: true,
         unique: true,
         lowercase: true,
         validate: value => {
@@ -43,9 +47,9 @@ userSchema.methods.generateAuthToken = async function() {
     return token
 }
 
-userSchema.statics.findByCredentials = async (email, password) => {
+userSchema.statics.findByCredentials = async (username, password) => {
     // Search for a user by email and password.
-    const user = await User.findOne({ email} )
+    const user = await User.findOne({username} )
     if (!user) {
         throw new Error({ error: 'Invalid login credentials' })
     }
